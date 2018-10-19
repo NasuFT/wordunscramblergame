@@ -1,10 +1,10 @@
-def startgame():
+def start_game():
 	"""	Prints text upon opening the game.
 	"""
 
 	print("Hello! Welcome to the Autism Induced Word Unscrambler!\n")
 
-def choosemode():
+def choose_mode():
 	"""	Prints text to select a game mode and returns the user input.
 		Repeatedly prints text to try again if an invalid input is received.
 
@@ -16,6 +16,7 @@ def choosemode():
 
 	> [A]nagram: What else is there!
 	> [C]ombine: Unscramble the puzzle!
+	> [H]olocaust: Coming out Winter 2018!
 		""")
 
 	while(True):
@@ -31,6 +32,18 @@ def choosemode():
 	elif mode in "combine":
 		return "combine"
 	
+def anagram_start():
+	""" Prints introductory text when choosing Anagram Game Mode.
+	"""
+
+	print("""
+Welcome to Search the Anagram!
+	Try to find all anagrams of the given string.
+	You are only given 3 mistakes before game over is called.
+
+	E.g. "Stalin" -> "Sin", "Ail", "Ails", ...
+		""")
+
 def retries(n):
 	""" Prints text to verify how many retries are left.
 	"""

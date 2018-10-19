@@ -1,4 +1,4 @@
-def readfile(file):
+def read_file(file):
 	"""	Returns a list of words given in a file.
 	"""
 
@@ -7,7 +7,7 @@ def readfile(file):
 	words = [word.rstrip() for word in f]
 	return words
 
-def pickwords(dictionary, *args):
+def pick_words(dictionary, *args):
 	"""	Returns a list of words in a sequence given indexes.
 	"""
 
@@ -21,7 +21,7 @@ def pickwords(dictionary, *args):
 
 		return words
 
-def scrabblescore(string):
+def scrabble_score(string):
 	"""	Returns the scrabble score from a given string.
 	"""
 
@@ -36,7 +36,7 @@ def scrabblescore(string):
 
 	return score
 
-def maxscrabblescore(dictionary, string, length = 0):
+def max_scrabble_score(dictionary, string, length = 0):
 	"""	Returns the highest possible score given a word and its unscrambled
 		words with length of at least n letters (given length = n, 
 		defaults to 0) from a given dictionary. 
@@ -50,7 +50,7 @@ def maxscrabblescore(dictionary, string, length = 0):
 
 	return max_score
 
-def checkword(string, word):
+def check_word(string, word):
 	"""	Returns True if the second word can be found using the letter in the
 		first word, otherwise False.
 	"""
@@ -68,7 +68,7 @@ def checkword(string, word):
 	else:
 		return False
 
-def searchanagrams(dictionary, string, length = 0):
+def search_anagrams(dictionary, string, length = 0):
 	"""	Returns a list of all words that can be formed from a word
 		from a given dictionary.
 
@@ -86,7 +86,7 @@ def searchanagrams(dictionary, string, length = 0):
 
 	return words
 
-def combinewords(iterable):
+def combine_words(iterable):
 	"""	Returns the shortest string that can be formed from a given
 		list of words.
 	"""
@@ -114,14 +114,14 @@ def combinewords(iterable):
 
 
 if __name__ == "__main__":
-	dictionary = readfile('dictionary.txt')
-	words = pickwords(dictionary, 15, 12, 13, 14)
+	dictionary = read_file('dictionary.txt')
+	words = pick_words(dictionary, 15, 12, 13, 14)
 	print(words)
-	words = pickwords(dictionary, 19)
+	words = pick_words(dictionary, 19)
 	print(words)
-	score = maxscrabblescore(dictionary, 'rnpcemtreaserfsno', length = 3)
+	score = max_scrabblescore(dictionary, 'rnpcemtreaserfsno', length = 3)
 	print(score)
-	print(searchanagrams(dictionary, 'colonialists', length = 3))
-	print(combinewords(['art', 'acts', 'refresh']))
+	print(search_anagrams(dictionary, 'colonialists', length = 3))
+	print(combine_words(['art', 'acts', 'refresh']))
 	print("test")
 

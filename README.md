@@ -10,4 +10,5 @@ If you win, you get 2500 V-Bucks.
 
 If you lose, your citizenship will be converted to Russian.
 
-If you manage to win and also lose, your system32 will be deleted.
+If you win but also lose at the same time,
+The Chancellor of the German Reich shall be reborn.
