@@ -36,12 +36,12 @@ def scrabblescore(string):
 
 	return score
 
-def maxscrabblescore(dictionary, string):
+def maxscrabblescore(dictionary, string, length = 0):
 	"""	Returns the highest possible score given a word and its unscrambled
-	words from a given dictionary.
+	words with length of at least 3 letters from a given dictionary.
 	"""
 	
-	words = searchanagrams(dictionary, string)
+	words = searchanagrams(dictionary, string, length = length)
 	max_score = 0
 
 	for word in words:
@@ -67,18 +67,18 @@ def checkword(string, word):
 	else:
 		return False
 
-def searchanagrams(dictionary, string, strict = 0):
+def searchanagrams(dictionary, string, length = 0):
 	"""	Returns a list of all words that can be formed from a word
 	from a given dictionary.
 
-	Only returns anagrams of the same word length if strict = 1.
+	Only returns anagrams of at least n length if length = n.
 	"""
 
 	words = []
 
 	for word in dictionary:
 		if checkword(string, word):
-			if strict == 1 and len(word) != len(string):
+			if len(word) < length:
 				continue
 			words.append(word)
 
@@ -112,13 +112,14 @@ def combinewords(iterable):
 
 
 if __name__ == "__main__":
-	dictionary = readfile('dictionary_sample.txt')
+	dictionary = readfile('dictionary.txt')
 	words = pickwords(dictionary, 15, 12, 13, 14)
 	print(words)
 	words = pickwords(dictionary, 19)
 	print(words)
-	score = maxscrabblescore(dictionary, 'rnpcemtreaserfsno')
+	score = maxscrabblescore(dictionary, 'rnpcemtreaserfsno', length = 3)
 	print(score)
-	print(searchanagrams(dictionary, 'colonialists'))
+	print(searchanagrams(dictionary, 'colonialists', length = 3))
 	print(combinewords(['art', 'acts', 'refresh']))
+	print("test")
 
