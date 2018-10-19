@@ -38,7 +38,8 @@ def scrabblescore(string):
 
 def maxscrabblescore(dictionary, string, length = 0):
 	"""	Returns the highest possible score given a word and its unscrambled
-	words with length of at least 3 letters from a given dictionary.
+		words with length of at least n letters (given length = n, 
+		defaults to 0) from a given dictionary. 
 	"""
 	
 	words = searchanagrams(dictionary, string, length = length)
@@ -51,7 +52,7 @@ def maxscrabblescore(dictionary, string, length = 0):
 
 def checkword(string, word):
 	"""	Returns True if the second word can be found using the letter in the
-	first word, otherwise False.
+		first word, otherwise False.
 	"""
 
 	count = 0
@@ -69,9 +70,10 @@ def checkword(string, word):
 
 def searchanagrams(dictionary, string, length = 0):
 	"""	Returns a list of all words that can be formed from a word
-	from a given dictionary.
+		from a given dictionary.
 
-	Only returns anagrams of at least n length if length = n.
+		Only returns anagrams of at least n length
+		(given length = n, defaults to 0).
 	"""
 
 	words = []
@@ -86,7 +88,7 @@ def searchanagrams(dictionary, string, length = 0):
 
 def combinewords(iterable):
 	"""	Returns the shortest string that can be formed from a given
-	list of words.
+		list of words.
 	"""
 
 	min_word = [0] * 26
