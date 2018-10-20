@@ -8,7 +8,7 @@ def ask(string, iterable):
 
 		if response in iterable:
 			return response
-		else
+		else:
 			print("Try Again.")
 
 def start_game():
@@ -16,6 +16,12 @@ def start_game():
 	"""
 
 	print("Hello! Welcome to the Autism Induced Word Unscrambler!\n")
+
+def short_word(length):
+	"""	Prints text that the word is too short.
+		The input needs to be of length of at least [length] letters.
+	"""
+	print("Words must have length of at least {} letters. Try again!".format(length))
 
 def select_gmode():
 	"""	Prints text to select a game mode and returns the user input.
@@ -46,15 +52,41 @@ def anagram_start():
 	print("""
 Welcome to Search the Anagram!
 	Try to find all anagrams of the given string.
+	Only words of at least length 3 will be accepted
 
 	E.g. "Stalin" -> "Sin", "Ail", "Ails", ...
 		""")
+
+def chosen_word(string):
+	"""	Prints the chosen word.
+	"""
+
+	print("The word(s) is/are: {}".format(string))
+
+def guessed():
+	"""	Prints text that you have already guessed that word.
+	"""
+
+	print("You have already guessed that word. Try again!")
+
+def calculate_score(num):
+	"""	Prints your score over the game
+	"""
+
+	print("""
+Your score is {}.""".format(num))
 
 def retries(n):
 	""" Prints text to verify how many retries are left.
 	"""
 
 	print("Retries left: {}".format(n))
+
+def correct():
+	"""	Prints correct.
+	"""
+
+	print("Correct!")
 
 def combine_start():
 	"""	Prints introductory text when choosing Combine Game Mode.
@@ -116,3 +148,40 @@ def play_again():
 		return True
 	elif decision in ("n", "no"):
 		return False
+
+def read_input():
+	"""	Reads player input and returns data accordingly.
+
+		Also reads commands and returns "c_[command]" if needed.
+		E.g. "/help" returns "c_help"
+	"""
+
+	while(True):
+		string = input().lower().rstrip()
+		
+		if len(string) < 1:
+			short_word(1)
+		elif string[0] == "/":
+			string = string[1:]
+
+			if string == "help":
+				return "c_help"
+			elif string == "word":
+				return "c_word"
+			else:
+				print("Unknown command!")
+		else:
+			return string
+
+def help():
+	"""	Prints help text
+	"""
+
+	print("Commands: /help, /word")
+
+def on_exit():
+	"""	Prints text when exiting the game.
+	"""
+
+	print("Thank you for playing Autism Induced Word Unscrambler!")
+	

@@ -10,19 +10,11 @@ def read_file(file):
 
 	return words
 
-def pick_words(dictionary, *args):
+def pick_word(dictionary, index):
 	"""	Returns a list of words in a sequence given indexes.
 	"""
 
-	if(len(args) < 1):
-		return None
-	else:
-		words = []
-
-		for index in args:
-			words.append(dictionary[index])
-
-		return words
+	return dictionary[index]
 
 def scrabble_score(string):
 	"""	Returns the scrabble score from a given string.
@@ -54,7 +46,7 @@ def max_scrabble_score(dictionary, string, length = 0):
 	return max_score
 
 def check_word(string, word):
-	"""	Returns True if the second word can be found using the letter in the
+	"""	Returns True if the second word can be found using letters in the
 		first word, otherwise False.
 	"""
 
@@ -121,13 +113,8 @@ def combine_words(iterable):
 
 if __name__ == "__main__":
 	dictionary = read_file('dictionary.txt')
-	words = pick_words(dictionary, 15, 12, 13, 14)
-	print(words)
-	words = pick_words(dictionary, 19)
-	print(words)
 	score = max_scrabble_score(dictionary, 'rnpcemtreaserfsno', length = 3)
 	print(score)
-	print(search_anagrams(dictionary, 'colonialists', length = 3))
 	print(combine_words(['art', 'acts', 'refresh']))
-	print("test")
+	print(combine_words(['porkchop', 'polki', 'cavorting', 'redhearted', 'preimposal', 'bulgarians']))
 
