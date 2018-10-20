@@ -5,6 +5,9 @@ def read_file(file):
 	f = open(file)
 
 	words = [word.rstrip() for word in f]
+
+	f.close()
+
 	return words
 
 def pick_words(dictionary, *args):
@@ -42,11 +45,11 @@ def max_scrabble_score(dictionary, string, length = 0):
 		defaults to 0) from a given dictionary. 
 	"""
 	
-	words = searchanagrams(dictionary, string, length = length)
+	words = search_anagrams(dictionary, string, length = length)
 	max_score = 0
 
 	for word in words:
-		max_score += scrabblescore(word)
+		max_score += scrabble_score(word)
 
 	return max_score
 
@@ -79,7 +82,7 @@ def search_anagrams(dictionary, string, length = 0):
 	words = []
 
 	for word in dictionary:
-		if checkword(string, word):
+		if check_word(string, word):
 			if len(word) < length:
 				continue
 			words.append(word)
@@ -106,6 +109,9 @@ def combine_words(iterable):
 				min_word[j] = letter_count[j]
 
 	for i in range(26):
+		if min_word[i] == 0:
+			continue
+
 		char_key = ord('a') + i
 		combined_word += chr(char_key) * min_word[i]
 
@@ -119,7 +125,7 @@ if __name__ == "__main__":
 	print(words)
 	words = pick_words(dictionary, 19)
 	print(words)
-	score = max_scrabblescore(dictionary, 'rnpcemtreaserfsno', length = 3)
+	score = max_scrabble_score(dictionary, 'rnpcemtreaserfsno', length = 3)
 	print(score)
 	print(search_anagrams(dictionary, 'colonialists', length = 3))
 	print(combine_words(['art', 'acts', 'refresh']))
