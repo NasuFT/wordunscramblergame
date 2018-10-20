@@ -146,3 +146,11 @@ while(True):
 		print("AWAKEN, MY MASTERS")
 		time.sleep(0.5)
 		break
+
+
+"""
+NEEDED TO BE DONE:
+Timers - Threading
+Difficulty in Combine Mode
+GUI
+"""
