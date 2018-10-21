@@ -62,7 +62,7 @@ while(True):
 				guess = interface.read_input()
 
 				if guess in ("c_word", "c_help"):
-					# Commands
+					# ---- Commands ----
 
 					if guess == "c_word":
 						interface.chosen_word(word)
@@ -70,24 +70,24 @@ while(True):
 						interface.help()
 
 				elif len(guess) < 3:
-					# Word too short
+					# ---- Word too short ----
 
 					interface.short_word(3)
 
 				elif engine.check_word(word, guess) and guess in anagrams:
-					# Check if valid anagram
+					# ---- Check if valid anagram -----
 
 					score += engine.scrabble_score(guess)
 					anagrams.remove(guess)
 					interface.correct()
 
 				elif guess in recheck:
-					# Check if word had been guessed already
+					# ---- Check if word had been guessed already ----
 
 					interface.guessed()
 
 				else:
-					# Remove 1 life
+					# ---- Remove 1 life ----
 
 					lives -= 1
 					interface.retries(lives)
@@ -100,15 +100,26 @@ while(True):
 
 			lives = 3
 			interface.retries(lives)
+			correct = True
 
 			while(lives > 0):
-				words = []
-				for _ in range(random.randint(3, 6)):
-					words.append(engine.pick_word(dictionary,
-						random.randrange(len(dictionary))))
-				interface.chosen_word(words)
 
-				word = engine.combine_words(words)
+				if correct:
+					correct = False
+
+					words = []
+					for _ in range(random.randint(3, 6)):
+
+						x = random.randrange(len(dictionary))
+
+						while(len(engine.pick_word(dictionary, x)) < 4
+						or len(engine.pick_word(dictionary, x)) > 7):
+							x = random.randrange(len(dictionary))
+						words.append(engine.pick_word(dictionary, x))
+					interface.chosen_word(words)
+
+					word = engine.combine_words(words)
+
 				guess = interface.read_input()
 
 				if guess in ("c_help", "c_word"):
@@ -118,6 +129,11 @@ while(True):
 						interface.help()
 					elif guess == "c_word":
 						interface.chosen_word(words)
+
+				elif len(guess) < 0:
+					# ---- Word too short ----
+
+					interface.short_word(1)
 
 				else:
 					# Check if correct answer
@@ -129,6 +145,7 @@ while(True):
 							break
 
 					if correct:
+						score += engine.scrabble_score(guess)
 						interface.correct()
 					else:
 						# Remove 1 life
@@ -148,9 +165,11 @@ while(True):
 		break
 
 
-"""
-NEEDED TO BE DONE:
-Timers - Threading
-Difficulty in Combine Mode
-GUI
-"""
+# ------ TO DO LIST ------
+# ---- HIGH PRIORITY ----
+# > GUI
+# ---- MEDIUM PRIORITY ----
+# > TIMERS IN TERMINAL BY THREADING
+# ---- LOW PRIORITY ----
+# > CLEANING UP INTERFACE.py
+# > CLEANING UP MAIN.py

@@ -116,5 +116,5 @@ if __name__ == "__main__":
 	score = max_scrabble_score(dictionary, 'rnpcemtreaserfsno', length = 3)
 	print(score)
 	print(combine_words(['art', 'acts', 'refresh']))
-	print(combine_words(['porkchop', 'polki', 'cavorting', 'redhearted', 'preimposal', 'bulgarians']))
+	print(combine_words(['happens', 'woops', 'inhales', 'antickt', 'rool']))
 
