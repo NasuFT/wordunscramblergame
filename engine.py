@@ -1,3 +1,5 @@
+import random
+
 def read_file(file):
 	"""	Returns a list of words given in a file.
 	"""
@@ -11,7 +13,7 @@ def read_file(file):
 	return words
 
 def pick_word(dictionary, index):
-	"""	Returns a list of words in a sequence given indexes.
+	"""	Returns the n-th word from a dictionary with n = index.
 	"""
 
 	return dictionary[index]
@@ -22,7 +24,7 @@ def scrabble_score(string):
 
 	string = string.lower()
 	score = 0
-	scores = [1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3, 
+	scores = [1, 3, 3, 2, 1, 4, 2, 4, 1, 8, 5, 1, 3,\
 		1, 1, 3, 10, 1, 1, 1, 1, 4, 4, 8, 4, 10]
 
 	for char in string:
@@ -66,7 +68,6 @@ def check_word(string, word):
 def search_anagrams(dictionary, string, length = 0):
 	"""	Returns a list of all words that can be formed from a word
 		from a given dictionary.
-
 		Only returns anagrams of at least n length
 		(given length = n, defaults to 0).
 	"""
@@ -83,7 +84,7 @@ def search_anagrams(dictionary, string, length = 0):
 
 def combine_words(iterable):
 	"""	Returns the shortest string that can be formed from a given
-		list of words.
+		list of words. The string will be in alphabetical order.
 	"""
 
 	min_word = [0] * 26
@@ -109,6 +110,74 @@ def combine_words(iterable):
 
 	return combined_word
 
+def seed(seed):
+	"""	Sets the random seed for use in other random functions.
+	"""
+
+	if seed != "":
+		random.seed(seed)
+	else:
+		random.seed()
+
+def anagram_random(dictionary, min_length, max_length):
+	"""	Returns a random word from a given dictionary
+		with length in range [min_length, max_length].
+	"""
+
+	word = random.choice(dictionary)
+
+	while not min_length <= len(word) <= max_length:
+		word = random.choice(dictionary)
+
+	return word
+
+def combine_random(dictionary, min_size, max_size, min_length, max_length):
+	"""	Returns a list of random size in range [min_size, max_size] with words
+	of length in range [min_length, max_length].
+	"""
+
+	words = []
+
+	for i in range(random.randint(min_size, max_size)):
+		x = random.choice(dictionary)
+
+		while min_length <= len(x) <= max_length:
+			x = random.choice(dictionary)
+
+		words.append(x)
+
+	return words
+
+
+class AnagramMode:
+	""" Creates a class specifically for Anagram Game Mode.
+	"""
+
+	def __init__(self, dictionary, mode):
+		self.dictionary = dictionary
+		self.min_length = 3
+		self.max_length = 9
+		self.score = 0
+		self.word = anagram_random(dictionary, self.min_length,
+											   self.max_length)
+		self.anagrams = search_anagrams(dictionary, self.word,
+										length = self.max_length)
+		self.anagrams_check = self.anagrams[:]
+
+		if mode == "zen":
+			self.lives = 3
+
+
+
+	def is_correct(self, string):
+		if check_word(self.dictionary, string) and string in self.anagrams:
+			return True
+		else:
+			return False
+
+
+
+
 
 
 if __name__ == "__main__":
@@ -117,4 +186,3 @@ if __name__ == "__main__":
 	print(score)
 	print(combine_words(['art', 'acts', 'refresh']))
 	print(combine_words(['happens', 'woops', 'inhales', 'antickt', 'rool']))
-

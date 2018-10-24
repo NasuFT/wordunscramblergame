@@ -34,8 +34,7 @@ while(True):
 	# ---- Randomizer ----
 
 	seed = input("Enter seed (Leave blank if unsure): ").rstrip()
-	if seed != "":
-		random.seed(seed)
+	engine.seed(seed)
 	
 	# ------ DURING THE GAME ------
 
@@ -44,11 +43,9 @@ while(True):
 	if gmode == "anagram":
 		# ------GAME MODE: ANAGRAM------
 
-		word = ""
-		while(len(word) < 7):
-			word = random.choice(dictionary)
-			anagrams = engine.search_anagrams(dictionary, word, length = 3)
-			recheck = anagrams[:]
+		word = engine.anagram_random(dictionary, 3, 7)
+		anagrams = engine.search_anagrams(dictionary, word, length = 3)
+		recheck = anagrams[:]
 
 		interface.chosen_word(word)
 
@@ -107,15 +104,7 @@ while(True):
 				if correct:
 					correct = False
 
-					words = []
-					for _ in range(random.randint(3, 6)):
-
-						x = random.randrange(len(dictionary))
-
-						while(len(engine.pick_word(dictionary, x)) < 4
-						or len(engine.pick_word(dictionary, x)) > 7):
-							x = random.randrange(len(dictionary))
-						words.append(engine.pick_word(dictionary, x))
+					words = engine.combine_random(dictionary, 3, 6, 4, 7)
 					interface.chosen_word(words)
 
 					word = engine.combine_words(words)

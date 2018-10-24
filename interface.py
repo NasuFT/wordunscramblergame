@@ -1,3 +1,46 @@
+commands = ['help', 'word']  # Game Commands
+gmodes = ['anagram', 'combine']  # Game Modes
+gmodes_short = ['a', 'c']  # Game Modes (Short Keys)
+modes = ['zen', 'timed', 'misery']  # Modes
+modes_short = ['z', 't', 'm']  # Modes (Short Keys)
+
+
+# Game Launch
+ON_LAUNCH = "Hello! Welcome to the Autism Induced Word Unscrambler!\n"
+# Select Game Mode
+ON_SELECT_GMODE = """Select a Game Mode!
+	Select the corresponding letter and press enter to start the game.
+
+	> [A]nagram: What else is there!
+	> [C]ombine: Unscramble the puzzle!
+	> [H]olocaust: Coming out Winter 2018!
+	"""
+# Select Mode
+ON_SELECT_MODE = """Select mode:
+	Select the corresponding letter and press enter to start the game.\
+
+	> [Z]en: 3 Lives Only.
+	> [T]imed: 60 Seconds Only.
+	> [M]isery: 3 Lives and 60 Seconds Only
+	"""
+# Anagram Game Mode Launch
+ON_ANAGRAM_START = """Welcome to Search the Anagram!
+	Try to find all anagrams of the given string.
+	Only words of at least length 3 will be accepted
+
+	E.g. "Stalin" -> "Sin", "Ail", "Ails", ...
+	"""
+# Combine Game Mode Launch
+ON_COMBINE_START = """Welcome to Combine the Words!
+	Try to find the shortest string that can be formed using the words shown.
+	The string must be in alphabetical order.
+
+	E.g. "Cahoots", "Slouch", "Lust" -> "Holocaust"
+	"""
+# Game Exit
+ON_EXIT = "Thank you for playing Autism Induced Word Unscrambler!"
+
+
 def ask(string, iterable):
 	"""	Asks the user for valid input.
 		The input is valid if it is found in the iterable.
@@ -15,7 +58,7 @@ def start_game():
 	"""	Prints text upon opening the game.
 	"""
 
-	print("Hello! Welcome to the Autism Induced Word Unscrambler!\n")
+	print(ON_LAUNCH)
 
 def short_word(length):
 	"""	Prints text that the word is too short.
@@ -30,32 +73,20 @@ def select_gmode():
 		Only returns "anagram" or "combine" depending on game mode selected.
 	"""
 
-	print("""Select a Game Mode!
-	Select the corresponding letter and press enter to start the game.
+	print(ON_SELECT_GMODE)
 
-	> [A]nagram: What else is there!
-	> [C]ombine: Unscramble the puzzle!
-	> [H]olocaust: Coming out Winter 2018!
-		""")
-
-	mode = ask("Choose Mode: ", ("a", "c", "anagram", "combine"))
+	mode = ask("Choose Mode: ", gmodes + gmodes_short)
 	
-	if mode in ("a", "anagram"):
-		return "anagram"
-	elif mode in ("c","combine"):
-		return "combine"
+	if mode in gmodes:
+		return gmodes[gmodes.index(mode)]
+	else:
+		return gmodes[gmodes_short.index(mode)]
 	
 def anagram_start():
 	""" Prints introductory text when choosing Anagram Game Mode.
 	"""
 
-	print("""
-Welcome to Search the Anagram!
-	Try to find all anagrams of the given string.
-	Only words of at least length 3 will be accepted
-
-	E.g. "Stalin" -> "Sin", "Ail", "Ails", ...
-		""")
+	print(ON_ANAGRAM_START)
 
 def chosen_word(string):
 	"""	Prints the chosen word.
@@ -70,7 +101,7 @@ def guessed():
 	print("You have already guessed that word. Try again!")
 
 def calculate_score(num):
-	"""	Prints your score over the game
+	"""	Prints your score over the game.
 	"""
 
 	print("""
@@ -92,13 +123,7 @@ def combine_start():
 	"""	Prints introductory text when choosing Combine Game Mode.
 	"""
 
-	print("""
-Welcome to Combine the Words!
-	Try to find the shortest string that can be formed using the words shown.
-	The string must be in alphabetical order.
-
-	E.g. "Cahoots", "Slouch", "Lust" -> "Holocaust"
-		""")
+	print(ON_COMBINE_START)
 
 def select_mode():
 	"""	Prints text to select a mode and returns the user input.
@@ -107,25 +132,14 @@ def select_mode():
 		Only returns "zen", "timed", or "misery".
 	"""
 
-	print("""
-Select mode:
-	Select the corresponding letter and press enter to start the game.\
+	print(ON_SELECT_MODE)
 
-	> [Z]en: 3 Lives Only.
-	> [T]imed: 60 Seconds Only.
-	> [M]isery: 3 Lives and 60 Seconds Only
-		""")
-
-	mode = ask("Choose Mode: ", ("z", "t", "c", "m", "zen", "timed", "misery", "cancel"))
+	mode = ask("Choose Mode: ", modes + modes_short)
 	
-	if mode in ("z", "zen"):
-		return "zen"
-	elif mode in ("t", "timed"):
-		return "timed"
-	elif mode in ("m", "misery"):
-		return "misery"
-	elif mode in ("c", "cancel"):
-		return "cancel"
+	if mode in modes:
+		return modes[modes.index(mode)]
+	else:
+		return modes[modes_short.index(mode)]
 
 def game_confirm():
 	"""	Prints text to confirm start of game.
@@ -162,12 +176,8 @@ def read_input():
 		if len(string) < 1:
 			short_word(1)
 		elif string[0] == "/":
-			string = string[1:]
-
-			if string == "help":
-				return "c_help"
-			elif string == "word":
-				return "c_word"
+			if string[1:] in commands:
+				return "c_{}".format(string[1:])
 			else:
 				print("Unknown command!")
 		else:
@@ -177,11 +187,16 @@ def help():
 	"""	Prints help text
 	"""
 
-	print("Commands: /help, /word")
+	string = "Commands: "
+
+	for word in commands:
+		string += "  /{}".format(word)
+
+	print(string)
 
 def on_exit():
 	"""	Prints text when exiting the game.
 	"""
 
-	print("Thank you for playing Autism Induced Word Unscrambler!")
+	print(ON_EXIT)
 	
