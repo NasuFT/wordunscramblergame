@@ -141,7 +141,7 @@ def combine_random(dictionary, min_size, max_size, min_length, max_length):
 	for i in range(random.randint(min_size, max_size)):
 		x = random.choice(dictionary)
 
-		while min_length <= len(x) <= max_length:
+		while not min_length <= len(x) <= max_length:
 			x = random.choice(dictionary)
 
 		words.append(x)
@@ -153,26 +153,67 @@ class AnagramMode:
 	""" Creates a class specifically for Anagram Game Mode.
 	"""
 
-	def __init__(self, dictionary, mode):
+	def __init__(self, dictionary):
 		self.dictionary = dictionary
-		self.min_length = 3
-		self.max_length = 9
-		self.score = 0
+		self.min_length = 6  # Min. word length
+		self.max_length = 15  # Max. Word length
+		self.score = 0  # score
+		self.lives = 3  # Lives
 		self.word = anagram_random(dictionary, self.min_length,
 											   self.max_length)
 		self.anagrams = search_anagrams(dictionary, self.word,
-										length = self.max_length)
+										length = 3)
 		self.anagrams_check = self.anagrams[:]
 
-		if mode == "zen":
-			self.lives = 3
-
-
-
 	def is_correct(self, string):
-		if check_word(self.dictionary, string) and string in self.anagrams:
+		"""	Checks if an anagram is correct. Returns True, False, or "guessed"
+			if the word has already been guessed
+		"""
+
+		if check_word(self.word, string) and string in self.anagrams:
+			self.score += scrabble_score(string)
+			self.anagrams.remove(string)
+			return True
+		elif self.has_guessed(string):
+			return "guessed"
+		else:
+			self.lives -= 1
+			return False
+
+	def has_guessed(self, string):
+		"""	Checks if the word has already been guessed.
+		"""
+
+		if string not in self.anagrams and string in self.anagrams_check:
 			return True
 		else:
+			return False
+
+
+class CombineMode:
+	"""	Creates a class specifically for Combine Game Mode
+	"""
+
+	def __init__(self, dictionary):
+		self.dictionary = dictionary
+		self.min_length = 4  # Min. word length
+		self.max_length = 7  # Max. word length
+		self.min_size = 3  # Min. number of words
+		self.max_size = 6  # Max. number of words
+		self.score = 0
+		self.lives = 3
+		self.word = combine_random(dictionary, self.min_size, self.max_size,
+									self.min_length, self.max_length)
+
+	def is_correct(self, string):
+		if string == combine_words(self.word):
+			self.score += scrabble_score(string)
+			self.word = combine_random(dictionary, self.min_size,
+									   self.max_size, self.min_length,
+									   self.max_length)
+			return True
+		else:
+			self.lives -= 1
 			return False
 
 
@@ -186,3 +227,4 @@ if __name__ == "__main__":
 	print(score)
 	print(combine_words(['art', 'acts', 'refresh']))
 	print(combine_words(['happens', 'woops', 'inhales', 'antickt', 'rool']))
+

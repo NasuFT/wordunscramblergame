@@ -82,11 +82,14 @@ def select_gmode():
 	else:
 		return gmodes[gmodes_short.index(mode)]
 	
-def anagram_start():
-	""" Prints introductory text when choosing Anagram Game Mode.
+def gmode_start(mode):
+	"""	Prints introductory text according to game mode.
 	"""
 
-	print(ON_ANAGRAM_START)
+	if mode == "anagram":
+		print(ON_ANAGRAM_START)
+	elif mode == "combine":
+		print(ON_COMBINE_START)
 
 def chosen_word(string):
 	"""	Prints the chosen word.
@@ -119,12 +122,6 @@ def correct():
 
 	print("Correct!")
 
-def combine_start():
-	"""	Prints introductory text when choosing Combine Game Mode.
-	"""
-
-	print(ON_COMBINE_START)
-
 def select_mode():
 	"""	Prints text to select a mode and returns the user input.
 		Repeatedly prints text to try again if an invalid input is received.
@@ -141,29 +138,19 @@ def select_mode():
 	else:
 		return modes[modes_short.index(mode)]
 
-def game_confirm():
-	"""	Prints text to confirm start of game.
+def confirm(string):
+	"""	Prints string and returns True or False depending on user input.
+		Only yes or no decisions are accepted.
 	"""
 
-	decision = ask("START GAME? [Y/n]: ", ("y", "n", "yes", "no"))
+	decision = ask(string, ('y', 'n', 'yes', 'no'))
 
-	if decision in ("y", "yes"):
+	if decision in ('y', 'yes'):
 		return True
-	elif decision in ("n", "no"):
+	else:
 		return False
-
-def play_again():
-	"""	Asks if the user wants to play again.
-	"""
-
-	decision = ask("Play Again? [Y/n]: ", ("y", "n", "yes", "no"))
-
-	if decision in ("y", "yes"):
-		return True
-	elif decision in ("n", "no"):
-		return False
-
-def read_input():
+		
+def read_input(string = ""):
 	"""	Reads player input and returns data accordingly.
 
 		Also reads commands and returns "c_[command]" if needed.
@@ -171,20 +158,21 @@ def read_input():
 	"""
 
 	while(True):
-		string = input().lower().rstrip()
+		_string = input(string).lower().rstrip()
 		
-		if len(string) < 1:
-			short_word(1)
-		elif string[0] == "/":
-			if string[1:] in commands:
-				return "c_{}".format(string[1:])
+		if _string != "":
+			if _string[0] == "/":
+				if _string[1:] in commands:
+					return "c_{}".format(_string[1:])
+				else:
+					print("Unknown command!")
 			else:
-				print("Unknown command!")
+				return _string
 		else:
-			return string
+			return _string
 
 def help():
-	"""	Prints help text
+	"""	Prints help text.
 	"""
 
 	string = "Commands: "
