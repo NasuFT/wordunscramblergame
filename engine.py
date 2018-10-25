@@ -211,7 +211,7 @@ class CombineMode:
 		"""
 		if string == combine_words(self.word):
 			self.score += scrabble_score(string)
-			self.word = combine_random(dictionary, self.min_size,
+			self.word = combine_random(self.dictionary, self.min_size,
 									   self.max_size, self.min_length,
 									   self.max_length)
 			return True
