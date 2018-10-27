@@ -1,5 +1,6 @@
 import random
 
+
 def read_file(file):
 	"""	Returns a list of words given in a file.
 	"""
@@ -164,6 +165,7 @@ class AnagramMode:
 		self.anagrams = search_anagrams(dictionary, self.word,
 										length = 3)
 		self.anagrams_check = self.anagrams[:]
+		self.anagrams.remove(self.word)
 
 	def is_correct(self, string):
 		"""	Checks if an anagram is correct. Returns True, False, or "guessed"
@@ -180,6 +182,11 @@ class AnagramMode:
 			self.lives -= 1
 			return False
 
+	def is_alive(self):
+		if self.lives > 0:
+			return True
+		return False
+
 	def has_guessed(self, string):
 		"""	Checks if the word has already been guessed.
 		"""
@@ -187,7 +194,7 @@ class AnagramMode:
 		if string not in self.anagrams and string in self.anagrams_check:
 			return True
 		else:
-			return False
+			return False	
 
 
 class CombineMode:
@@ -219,9 +226,10 @@ class CombineMode:
 			self.lives -= 1
 			return False
 
-
-
-
+	def is_alive(self):
+		if self.lives > 0:
+			return True
+		return False
 
 
 if __name__ == "__main__":

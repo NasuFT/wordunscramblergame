@@ -7,16 +7,27 @@ import interface
 dictionary = engine.read_file("dictionary.txt")
 
 while True:
+	quit_flag = False
+	screen = None
+
 	# ------ GAME LAUNCH ------
-	interface.start_game()
-	gmode = interface.select_gmode()  # Select Game Mode
-	interface.gmode_start(gmode)
+	if not screen:
+		if interface.confirm("Use Terminal? [Y/n]: "):
+			screen = interface.Terminal()
+		else:
+			pass
+
+	screen.clear()
+
+	screen.start_game()
+	gmode = screen.select_gmode()  # Select Game Mode
+	screen.gmode_start(gmode)
 	
-	if not interface.confirm("START GAME? [Y/n]: "):  # Game Start Confirm
+	if not screen.confirm("START GAME? [Y/n]: "):  # Game Start Confirm
 		continue
 
 	# Randomization
-	engine.seed(interface.read_input("Enter seed (Leave blank if unsure): "))
+	engine.seed(screen.read_input("Enter seed (Leave blank if unsure): "))
 
 	# ------ GAME START ------
 
@@ -25,45 +36,47 @@ while True:
 	elif gmode == "combine":
 		game = engine.CombineMode(dictionary)
 
-	interface.chosen_word(game.word)
+	screen.chosen_word(game.word)
 
-	while game.lives > 0:
-		guess = interface.read_input()
+	while game.is_alive():
+		guess = screen.read_input()
 		
 		if guess[0:2] == "c_":  # If user typed a command
 			if guess == "c_help":
-				interface.help()
+				screen.help()
 			elif guess == "c_word":
-				interface.chosen_word(game.word)
+				screen.chosen_word(game.word)
 			elif guess == "c_quit":
-				if interface.confirm("Quit? [Y/n]: "):
+				if screen.confirm("Quit? [Y/n]: "):
 					quit_flag = True
 					break
 		else:
 			_is_correct = game.is_correct(guess)
 
 			if len(guess) < 3:  # If user typed a word with less than 3 chars
-				interface.short_word(3)
+				screen.short_word(3)
 			elif _is_correct:  # If user is correct
 				if _is_correct == "guessed":  #If already guessed
-					interface.guessed()
+					screen.guessed()
 				else:
-					interface.correct()
+					screen.correct()
 					if gmode == "combine":
-						interface.chosen_word(game.word)
+						screen.chosen_word(game.word)
 			else:  # If user is wrong
-				interface.retries(game.lives)
+				screen.retries(game.lives)
 
 	if quit_flag:
 		break
 
 	# ------ POST GAME ------
-	interface.calculate_score(game.score)
+	screen.calculate_score(game.score)
 
-	if not interface.confirm("Play Again? [Y/n]: "):
-		interface.on_exit()
+	if not screen.confirm("Play Again? [Y/n]: "):
+		screen.on_exit()
 		time.sleep(3)
 		break
+
+	screen.clear()
 
 
 

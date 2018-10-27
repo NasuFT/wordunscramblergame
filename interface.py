@@ -1,3 +1,6 @@
+import os
+
+
 commands = ['help', 'word', 'quit']  # Game Commands
 gmodes = ['anagram', 'combine']  # Game Modes
 gmodes_short = ['a', 'c']  # Game Modes (Short Keys)
@@ -66,126 +69,149 @@ def confirm(string):
 	else:
 		return False
 		
-def read_input(string = ""):
-	"""	Reads player input and returns data accordingly.
 
-		Also reads commands and returns "c_[command]" if needed.
-		E.g. "/help" returns "c_help"
+class Terminal:
+	"""	Set up Terminal interface.
 	"""
 
-	while(True):
-		_string = input(string).lower().rstrip()
-		
-		if _string != "":
-			if _string[0] == "/":
-				if _string[1:] in commands:
-					return "c_{}".format(_string[1:])
+	def confirm(self, string):
+		"""	Prints string and returns True or False depending on user input.
+
+			Only yes or no decisions are accepted.
+		"""
+
+		decision = ask(string, ('y', 'n', 'yes', 'no'))
+
+		if decision in ('y', 'yes'):
+			return True
+		else:
+			return False
+
+	def read_input(self, string = ""):
+		"""	Reads player input and returns data accordingly.
+
+			Also reads commands and returns "c_[command]" if needed.
+			E.g. "/help" returns "c_help"
+		"""
+
+		while(True):
+			_string = input(string).lower().rstrip()
+			
+			if _string != "":
+				if _string[0] == "/":
+					if _string[1:] in commands:
+						return "c_{}".format(_string[1:])
+					else:
+						print("Unknown command!")
 				else:
-					print("Unknown command!")
+					return _string
 			else:
 				return _string
-		else:
-			return _string
 			
-def start_game():
-	"""	Prints text upon opening the game.
-	"""
+	def start_game(self):
+		"""	Prints text upon opening the game.
+		"""
 
-	print(ON_LAUNCH)
+		print(ON_LAUNCH)
 
-def select_gmode():
-	"""	Prints text to select a game mode and returns the user input.
-		Repeatedly prints text to try again if an invalid input is received.
+	def select_gmode(self):
+		"""	Prints text to select a game mode and returns the user input.
+			Repeatedly prints text to try again if an invalid input is received.
 
-		Only returns "anagram" or "combine" depending on game mode selected.
-	"""
+			Only returns "anagram" or "combine" depending on game mode selected.
+		"""
 
-	print(ON_SELECT_GMODE)
+		print(ON_SELECT_GMODE)
 
-	mode = ask("Choose Mode: ", gmodes + gmodes_short)
-	
-	if mode in gmodes:
-		return gmodes[gmodes.index(mode)]
-	else:
-		return gmodes[gmodes_short.index(mode)]
-	
-def gmode_start(mode):
-	"""	Prints introductory text according to game mode.
-	"""
-
-	if mode == "anagram":
-		print(ON_ANAGRAM_START)
-	elif mode == "combine":
-		print(ON_COMBINE_START)
+		mode = ask("Choose Mode: ", gmodes + gmodes_short)
 		
-def select_mode():
-	"""	Prints text to select a mode and returns the user input.
-		Repeatedly prints text to try again if an invalid input is received.
+		if mode in gmodes:
+			return gmodes[gmodes.index(mode)]
+		else:
+			return gmodes[gmodes_short.index(mode)]
+		
+	def gmode_start(self, mode):
+		"""	Prints introductory text according to game mode.
+		"""
 
-		Only returns "zen", "timed", or "misery".
-	"""
+		if mode == "anagram":
+			print(ON_ANAGRAM_START)
+		elif mode == "combine":
+			print(ON_COMBINE_START)
+			
+	def select_mode(self):
+		"""	Prints text to select a mode and returns the user input.
+			Repeatedly prints text to try again if an invalid input is received.
 
-	print(ON_SELECT_MODE)
+			Only returns "zen", "timed", or "misery".
+		"""
 
-	mode = ask("Choose Mode: ", modes + modes_short)
-	
-	if mode in modes:
-		return modes[modes.index(mode)]
-	else:
-		return modes[modes_short.index(mode)]
+		print(ON_SELECT_MODE)
 
-def short_word(length):
-	"""	Prints text that the word is too short.
-		The input needs to be of length of at least [length] letters.
-	"""
-	print("Words must have length of at least {} letters. Try again!".format(length))
+		mode = ask("Choose Mode: ", modes + modes_short)
+		
+		if mode in modes:
+			return modes[modes.index(mode)]
+		else:
+			return modes[modes_short.index(mode)]
+
+	def short_word(self, length):
+		"""	Prints text that the word is too short.
+			The input needs to be of length of at least [length] letters.
+		"""
+		print("Words must have length of at least {} letters. Try again!".format(length))
 
 
-def chosen_word(string):
-	"""	Prints the chosen word.
-	"""
+	def chosen_word(self, string):
+		"""	Prints the chosen word.
+		"""
 
-	print("The word(s) is/are: {}".format(string))
+		print("The word(s) is/are: {}".format(string))
 
-def guessed():
-	"""	Prints text that you have already guessed that word.
-	"""
+	def guessed(self):
+		"""	Prints text that you have already guessed that word.
+		"""
 
-	print("You have already guessed that word. Try again!")
+		print("You have already guessed that word. Try again!")
 
-def calculate_score(num):
-	"""	Prints your score over the game.
-	"""
+	def calculate_score(self, n):
+		"""	Prints your score over the game.
+		"""
 
-	print("""
-Your score is {}.""".format(num))
+		print("""
+	Your score is {}.""".format(n))
 
-def retries(n):
-	""" Prints text to verify how many retries are left.
-	"""
+	def retries(self, n):
+		""" Prints text to verify how many retries are left.
+		"""
 
-	print("Retries left: {}".format(n))
+		print("Retries left: {}".format(n))
 
-def correct():
-	"""	Prints correct.
-	"""
+	def correct(self):
+		"""	Prints correct.
+		"""
 
-	print("Correct!")
+		print("Correct!")
 
-def help():
-	"""	Prints help text.
-	"""
+	def help(self):
+		"""	Prints help text.
+		"""
 
-	string = "Commands: "
+		string = "Commands: "
 
-	for word in commands:
-		string += "  /{}".format(word)
+		for word in commands:
+			string += "  /{}".format(word)
 
-	print(string)
+		print(string)
 
-def on_exit():
-	"""	Prints text when exiting the game.
-	"""
+	def on_exit(self):
+		"""	Prints text when exiting the game.
+		"""
 
-	print(ON_EXIT)
-	
+		print(ON_EXIT)
+
+	def clear(self):
+		"""	Clears the terminal screen.
+		"""
+		os.system('cls')
+
