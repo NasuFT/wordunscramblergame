@@ -154,7 +154,7 @@ class AnagramMode:
 	""" Creates a class specifically for Anagram Game Mode.
 	"""
 
-	def __init__(self, dictionary):
+	def __init__(self, dictionary, screen):
 		self.dictionary = dictionary
 		self.min_length = 6  # Min. word length
 		self.max_length = 15  # Max. Word length
@@ -201,7 +201,7 @@ class CombineMode:
 	"""	Creates a class specifically for Combine Game Mode
 	"""
 
-	def __init__(self, dictionary):
+	def __init__(self, dictionary, screen):
 		self.dictionary = dictionary
 		self.min_length = 4  # Min. word length
 		self.max_length = 7  # Max. word length
