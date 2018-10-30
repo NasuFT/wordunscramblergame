@@ -19,16 +19,14 @@ ON_SELECT_MODE = """Select a Game Mode!
 # Anagram Game Mode Launch
 ON_ANAGRAM_START = """Welcome to Search the Anagram!
 	Try to find all anagrams of the given string.
-	Only words of at least length 3 will be accepted
 
-	E.g. "Stalin" -> "Sin", "Ail", "Ails", ...
+	E.g. "Reign" -> "Ringe", "Niger",...
 	"""
 # Combine Game Mode Launch
 ON_COMBINE_START = """Welcome to Combine the Words!
-	Try to find the shortest string that can be formed using the words shown.
-	The string must be in alphabetical order.
+	Try to find all words that can be formed from the string.
 
-	E.g. "Cahoots", "Slouch", "Lust" -> "Holocaust"
+	E.g. "Holocaust" -> "Cahoots", "Slouch", "Lust",...
 	"""
 # Game Exit
 ON_EXIT = "Thank you for playing Autism Induced Word Unscrambler!"
@@ -64,7 +62,14 @@ class Terminal:
 	"""
 
 	def __init__(self):
-		self.is_running = True	
+		self.running = True
+
+	def is_running(self):
+		if self.running:
+			return True
+
+		return False
+	
 
 	def ask(self, string, iterable):
 		"""	Asks the user for valid input.
@@ -183,11 +188,11 @@ class Terminal:
 
 		print("The word is: {}".format(string))
 
-	def calculate_score(self, score):
+	def calculate_score(self, score, max_score):
 		"""	Prints score.
 		"""
 
-		print("Your score is: {}".format(score))
+		print("Your score is: {}/{}".format(score, max_score))
 
 	def on_exit(self):
 		"""	Prints text on exit.

@@ -1,5 +1,6 @@
 import random
 
+
 def read_file(file):
 	"""	Returns a list of words given in a file.
 	"""
@@ -21,12 +22,15 @@ def check_word(word, string):
 			Otherwise, False.
 		"""
 
+		count = 0
+
 		for char in word:
 			if char in string:
-				word = word.replace(char, "")
-				string = string.replace(char, "")
-
-		if word == "":
+				index = string.index(char)
+				string = string[:index] + string[index + 1:]
+				count += 1
+				
+		if count == len(word):
 			return True
 
 		return False
@@ -71,10 +75,10 @@ class AnagramMode:
 	""" Creates a class specifically for Anagram Game Mode.
 	"""
 
-	def __init__(self, dictionary, screen):
+	def __init__(self, dictionary):
 		self.dictionary = dictionary
-		self.min_length = 6  # Minimum word length
-		self.max_length = 15  # Maximum word length
+		self.min_length = 3  # Minimum word length
+		self.max_length = 6  # Maximum word length
 		self.score = 0
 		self.lives = 3
 		self.word = self.random_word(dictionary)
@@ -149,10 +153,9 @@ class CombineMode:
 	""" Creates a class specifically for Combine Game Mode.
 	"""
 
-	def __init__(self, dictionary, screen):
+	def __init__(self, dictionary):
 		self.dictionary = dictionary
-		self.min_size = 4  # Min. number of words
-		self.max_size = 10  # Max. number of words
+		self.min_length = 3  # Min. number of words
 		self.score = 0
 		self.lives = 3
 		self.word = self.random_word(dictionary)
@@ -166,6 +169,10 @@ class CombineMode:
 		if string in self.words:
 			self.correct_answers.append(string)
 			self.score += scrabble_score(string)
+
+			if self.correct_answers == self.words:
+				self.lives = 0
+
 			return True
 
 		self.lives -= 1
@@ -193,14 +200,16 @@ class CombineMode:
 	def random_word(self, dictionary):
 		"""	Returns a random word from a given dictionary
 			with length in range [min_length, max_length].
+			Also makes sure the word can form at least 10
+			words from its letters
 		"""
 
 		words = []
 
-		for i in range(random.randint(self.min_size, self.max_size)):
-			x = random.choice(dictionary)
+		for _ in range(random.randint(1, 10)):
+			i = random.randrange(len(dictionary))
 
-			words.append(x)
+			words.append(pick_word(dictionary, i))
 
 		word = self.combine_words(words)
 
@@ -249,6 +258,17 @@ class CombineMode:
 		combined_word = "".join(_combined_word)
 
 		return combined_word
+
+if __name__ == "__main__":
+	dictionary = read_file('dictionary.txt')
+	screen = ""
+
+	game = CombineMode(dictionary)
+
+	game.word = 'host'
+	game.words = game.find_words(dictionary, game.word)
+	print(game.words)
+
 
 
 

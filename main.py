@@ -11,7 +11,7 @@ if not interface.confirm("Use GUI? [Y/n]: "):
 else:
 	pass
 
-while screen.is_running:
+while screen.is_running():
 	# ------ GAME LAUNCH ------
 	
 	screen.clear()
@@ -28,9 +28,9 @@ while screen.is_running:
 	# ------ GAME START ------
 
 	if mode == "anagram":
-		game = engine.AnagramMode(dictionary, screen)
+		game = engine.AnagramMode(dictionary)
 	elif mode == "combine":
-		game = engine.CombineMode(dictionary, screen)
+		game = engine.CombineMode(dictionary)
 
 	screen.chosen_word(game.word)
 
@@ -42,6 +42,7 @@ while screen.is_running:
 				screen.chosen_word(game.word)
 			elif guess == "c_quit":
 				if screen.confirm("Quit? [Y/n]: "):
+					screen.is_running = False
 					break
 		else:
 			if game.has_guessed(guess):
@@ -58,7 +59,7 @@ while screen.is_running:
 		break
 
 	# ------ POST GAME ------
-	screen.calculate_score(game.score)
+	screen.calculate_score(game.score, game.max_score)
 
 	if not screen.confirm("Play Again? [Y/n]: "):
 		screen.on_exit()
