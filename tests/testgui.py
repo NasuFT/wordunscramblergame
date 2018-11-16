@@ -6,14 +6,14 @@ import pygame
 GAME_TITLE = "Autistic Induced Word Unscrambler"
 GAME_WIDTH = 1280
 GAME_HEIGHT = 720
-GAME_FPS = 60
 GAME_ASSETS_DIR = "Assets"
+GAME_FPS = 30
 
 
 pygame.init()
 
 def load_image(file, dest = (0, 0)):
-    rect = pygame.image.load(os.path.join(GAME_ASSETS_DIR, file))
+    rect = pygame.image.load(os.path.join(GAME_ASSETS_DIR, file)).convert_alpha()
 
     if dest == 'center':
         dest = center(rect)
@@ -21,6 +21,15 @@ def load_image(file, dest = (0, 0)):
     game.screen.blit(rect, dest)
 
     return rect
+
+def scale(rect, size):
+    rect_x = rect.get_rect().x
+    rect_y = rect.get_rect().y
+
+    img = pygame.transform.scale(rect, size)
+    game.screen.blit(img, (rect_x, rect_y))
+
+    return img
 
 def center(rect):
     width = GAME_WIDTH
@@ -55,11 +64,11 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
 
-    load_image('bg.jpg')
+    scale(load_image('bg.jpg'), (width, height))
 
     load_image('DlhwzN7WwAEZlFD.jpg', 'center')
 
-    pygame.display.flip()
+    pygame.display.update()
     game.clock.tick(GAME_FPS)
 
 

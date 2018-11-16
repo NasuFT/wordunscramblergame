@@ -18,22 +18,22 @@ def pick_word(dictionary, index):
 	return dictionary[index]
 
 def check_word(word, string):
-		"""	Returns True if a word can be formed from a string.
-			Otherwise, False.
-		"""
+	"""	Returns True if a word can be formed from a string.
+		Otherwise, False.
+	"""
 
-		count = 0
+	count = 0
 
-		for char in word:
-			if char in string:
-				index = string.index(char)
-				string = string[:index] + string[index + 1:]
-				count += 1
-				
-		if count == len(word):
-			return True
+	for char in word:
+		if char in string:
+			index = string.index(char)
+			string = string[:index] + string[index + 1:]
+			count += 1
+			
+	if count == len(word):
+		return True
 
-		return False
+	return False
 
 def scrabble_score(string):
 	"""	Returns the scrabble score from a given string.
@@ -82,8 +82,8 @@ class AnagramMode:
 		self.score = 0
 		self.lives = 3
 		self.word = self.random_word(dictionary)
-		self.anagrams = self.find_anagrams(dictionary, self.word)
-		self.max_score = max_score(self.anagrams)
+		self.words = self.find_anagrams(dictionary, self.word)
+		self.max_score = max_score(self.words)
 		self.correct_answers = []
 
 	def is_correct(self, string):
@@ -91,11 +91,11 @@ class AnagramMode:
 			Returns False if not a valid anagram.
 		"""
 
-		if string in self.anagrams:
+		if string in self.words:
 			self.correct_answers.append(string)
 			self.score += scrabble_score(string)
 
-			if self.correct_answers == self.anagrams:
+			if self.score == self.max_score:
 				self.lives = 0
 
 			return True
@@ -166,11 +166,12 @@ class CombineMode:
 	def is_correct(self, string):
 		"""	Returns True if the word is a valid answer. If not, returns False.
 		"""
+
 		if string in self.words:
 			self.correct_answers.append(string)
 			self.score += scrabble_score(string)
 
-			if self.correct_answers == self.words:
+			if self.score == self.max_score:
 				self.lives = 0
 
 			return True
@@ -183,6 +184,7 @@ class CombineMode:
 		"""	Returns True if the word has already been guessed.
 			If not, returns False.
 		"""
+
 		if string in self.correct_answers:
 			return True
 
@@ -198,21 +200,16 @@ class CombineMode:
 		return False
 
 	def random_word(self, dictionary):
-		"""	Returns a random word from a given dictionary
-			with length in range [min_length, max_length].
+		"""	Returns a random word from a given dictionary.
+
 			Also makes sure the word can form at least 10
-			words from its letters
+			words from its letters.
 		"""
 
-		words = []
+		word = random.choice(dictionary)
 
-		for _ in range(random.randint(1, 10)):
-			i = random.randrange(len(dictionary))
-
-			words.append(pick_word(dictionary, i))
-
-		word = self.combine_words(words)
-
+		while len(word) < 4 and not 5 <= len(self.find_words(dictionary, word)) <= 50:
+                        word = random.choice(dictionary)
 		return word
 
 	def find_words(self, dictionary, string):
@@ -258,16 +255,6 @@ class CombineMode:
 		combined_word = "".join(_combined_word)
 
 		return combined_word
-
-if __name__ == "__main__":
-	dictionary = read_file('dictionary.txt')
-	screen = ""
-
-	game = CombineMode(dictionary)
-
-	game.word = 'host'
-	game.words = game.find_words(dictionary, game.word)
-	print(game.words)
 
 
 

@@ -7,7 +7,7 @@ modes_short = ['a', 'c']
 
 
 # Game Launch
-ON_LAUNCH = "Hello! Welcome to the Autism Induced Word Unscrambler!\n"
+ON_LAUNCH = "Hello! Welcome to Word Search but in Space!\n"
 # Select Game Mode
 ON_SELECT_MODE = """Select a Game Mode!
 	Select the corresponding letter and press enter to start the game.
@@ -26,35 +26,35 @@ ON_ANAGRAM_START = """Welcome to Search the Anagram!
 ON_COMBINE_START = """Welcome to Combine the Words!
 	Try to find all words that can be formed from the string.
 
-	E.g. "Holocaust" -> "Cahoots", "Slouch", "Lust",...
+	E.g. "Marigold" -> "Gold", "Rig", "Mold",...
 	"""
 # Game Exit
-ON_EXIT = "Thank you for playing Autism Induced Word Unscrambler!"
+ON_EXIT = "Thank you for playing Word Search but in Space!"
 
 def ask(string, iterable):
-		"""	Asks the user for valid input.
-			The input is valid if it is found in the iterable.
-		"""
+	"""	Asks the user for valid input.
+		The input is valid if it is found in the iterable.
+	"""
 
-		while(True):
-			response = input(string).lower().rstrip()
+	while(True):
+		response = input(string).lower().rstrip()
 
-			if response in iterable:
-				return response
-			else:
-				print("Try Again.")
+		if response in iterable:
+			return response
+		else:
+			print("Try Again.")
 
 def confirm(string):
-		"""	Prints string and returns True or False depending on user input.
-			Only yes or no decisions are accepted.
-		"""
+	"""	Prints string and returns True or False depending on user input.
+		Only yes or no decisions are accepted.
+	"""
 
-		decision = ask(string, ('y', 'n', 'yes', 'no'))
+	decision = ask(string, ('y', 'n', 'yes', 'no'))
 
-		if decision in ('y', 'yes'):
-			return True
-		else:
-			return False
+	if decision in ('y', 'yes'):
+		return True
+	else:
+		return False
 
 
 class Terminal:

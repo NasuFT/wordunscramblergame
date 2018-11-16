@@ -1,3 +1,22 @@
+# Readme
+1. Download and install Python 3.7.0 or later from https://www.python.org/downloads/
+
+2. Run Command Prompt and change directory to root folder
+
+3. Type the following commands:
+```
+cd scripts
+activate
+cd ..
+python main.py
+```
+
+4. To deactivate, navigate to root folder and type:
+```
+cd scripts
+deactivate
+```
+
 # Important Notes: Game Modes
 Game Modes have to accept 2 parameters, the dictionary file and the usage of screen.
 ```
